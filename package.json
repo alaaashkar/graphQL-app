@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://alaaashkar.github.io/products-page-redux",
+  "homepage": "https://alaaashkar.github.io/graphQL-app",
   "dependencies": {
     "@apollo/client": "^3.9.5",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
