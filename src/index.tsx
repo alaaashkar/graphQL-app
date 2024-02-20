@@ -5,6 +5,8 @@ import reportWebVitals from './reportWebVitals';
 import { HashRouter } from 'react-router-dom';
 import { store } from './Store/Store'
 import { Provider } from 'react-redux'
+import { ApolloProvider } from '@apollo/client'
+import { client } from './apollo';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,9 +14,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <HashRouter>
-      <App />
-    </HashRouter>
+    <ApolloProvider client={client}>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </ApolloProvider>
   </Provider>
 );
 

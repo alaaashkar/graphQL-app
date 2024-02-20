@@ -1,37 +1,28 @@
-import React, { useEffect, lazy, Suspense } from 'react';
 import './App.scss';
-import { Route, Routes } from 'react-router';
-import { Home } from './Views/Home/Home';
+import { getCountriesByQl } from './Store/Slices/CountriesSlice';
+import CountryList from './Components/CountryList/CountryList';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchProducts } from './Store/Slices/ProductsSlice';
+import { useQuery } from '@apollo/client';
+import { GET_CHARACTERS } from './graphql/queries/countries';
+import { ClipLoader } from 'react-spinners';
 import { AppDispatch } from './Store/Store';
-import { Layout } from './Components/Header/Layout/Layout';
-import { Female } from './Views/Female/Female';
-import { Products } from './Views/Products/Products';
-
-const LazyMale = lazy(() => import('./Views/Male/Male'))
-
 
 function App() {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
+  const { data, loading, error } = useQuery(GET_CHARACTERS);
 
   useEffect(() => {
-    dispatch(fetchProducts())
-  })
+    dispatch(getCountriesByQl());
+  }, [dispatch, data]);
+
+  if (loading) return <div className='loader'><ClipLoader color="#000" /></div>;
+  if (error) return <p>error</p>;
 
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path='/products/man' element={
-          <Suspense fallback={<div>Loading...</div>}>
-            <LazyMale />
-          </Suspense>
-        } />
-        <Route path='/products/woman' element={<Female />} />
-        <Route path='/products/:productId' element={<Products />} />
-      </Route >
-    </Routes >
+    <div>
+      <CountryList />
+    </div>
   );
 }
 
